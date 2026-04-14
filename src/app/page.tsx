@@ -1,10 +1,10 @@
 'use client';
 
-import { useChat } from 'ai/react';
+import { useChat } from '@ai-sdk/react';
 import { useState } from 'react';
 
 export default function ChatPage() {
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+  const { messages, input, inputProps, handleSubmit, isLoading } = useChat({
     api: '/api/chat',
   });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -12,7 +12,7 @@ export default function ChatPage() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('messages', JSON.stringify(messages.concat({ role: 'user', content: input })));
+    formData.append('messages', JSON.stringify([...messages, { role: 'user', content: input }]));
     if (selectedFile) {
       formData.append('pdf', selectedFile);
     }
@@ -32,7 +32,7 @@ export default function ChatPage() {
           type="file"
           accept=".pdf"
           onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-500 file:text-blue-700 hover:file:bg-blue-100"
         />
         {selectedFile && (
           <p className="mt-2 text-sm text-green-600">已选择: {selectedFile.name}</p>
@@ -57,7 +57,7 @@ export default function ChatPage() {
       <form onSubmit={onSubmit} className="flex gap-2">
         <input
           value={input}
-          onChange={handleInputChange}
+          onChange={inputProps.onChange}
           placeholder="输入你的问题..."
           className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           disabled={isLoading}
