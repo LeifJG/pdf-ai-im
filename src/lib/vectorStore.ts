@@ -8,7 +8,7 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 // 初始化 Embeddings 实例
 // 我们使用 text-embedding-3-small 模型，它便宜且速度快
 const embeddings = new OpenAIEmbeddings({
-  modelName: "nvidia/nemotron-3-super-120b-a12b:free", // 使用通义千问的免费模型
+  modelName: "openrouter/free", // 使用通义千问的免费模型
   configuration: {
     baseURL: process.env.OPENROUTER_BASE_URL, // 指向 OpenRouter
   },

@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
 
     // --- 第四步：调用大模型 API ---
     const completion = await openai.chat.completions.create({
-      model: "nvidia/nemotron-3-super-120b-a12b:free",
+      model: "openrouter/free",
       // 我们将 systemPrompt 和用户的 message 一起发送给模型。
       messages: [
         { role: "system", content: systemPrompt }, // 这是给 AI 的指令
